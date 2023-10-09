@@ -8,7 +8,7 @@ def get_users_and_unread_message_count(current_user):
     # User = get_user_model()
 
     other_users = User.objects.exclude(id=current_user.id)
-    annotated_users = other_users.annotate(
+    return other_users.annotate(
         unread_count=Count(
             Case(
                 When(sent_messages__receiver=current_user.id, sent_messages__is_read=False, then='sent_messages'),

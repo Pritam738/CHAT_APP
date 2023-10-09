@@ -1,18 +1,15 @@
 
 <script>
   // Function to reset the form fields
-  (function resetForm() {
-      document.getElementById("myForm").reset();
-  })()
-
-  // Check if the form was submitted successfully
-  // You can use an event handler to trigger this function
-  // For example, if you're using AJAX for form submission:
-  // document.getElementById("myForm").addEventListener("submit", function(event) {
-  //     event.preventDefault();
-  //     // Your AJAX submission logic here
-  //     resetForm();
-  // });
+  function resetForm() {
+      console.log("called")
+      document.getElementById("message-form").reset();
+  }
+  // Add an event listener to prevent form submission on page refresh
+  window.addEventListener('beforeunload', function (e) {
+    e.preventDefault();
+    resetForm(); // Reset the form fields
+  });
 </script>
 
 {% block content %}
