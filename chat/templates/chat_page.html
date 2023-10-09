@@ -1,0 +1,26 @@
+{% block content %}
+<h1>Chat Page</h1>
+<div class="chat-interface">
+    <h2>Logged in as: {{ request.user.username }}</h2>
+</div>
+<div class="user-list">
+  <h3>Users</h3>
+  <ul>
+    {% for user_and_unread_count in users_and_unread_count %}
+      <li>
+        <a href="{% url 'user_chat' user_and_unread_count.id %}">
+          {{ user_and_unread_count.username }} 
+        </a>
+        <span class="unread-count">: unread_message_count: {{ user_and_unread_count.unread_count }}</span>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <h3>Logout</h3>
+  <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+  </form>
+</div>
+
+{% endblock %}

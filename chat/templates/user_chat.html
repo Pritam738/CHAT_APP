@@ -1,0 +1,42 @@
+
+<script>
+  // Function to reset the form fields
+  (function resetForm() {
+      document.getElementById("myForm").reset();
+  })()
+
+  // Check if the form was submitted successfully
+  // You can use an event handler to trigger this function
+  // For example, if you're using AJAX for form submission:
+  // document.getElementById("myForm").addEventListener("submit", function(event) {
+  //     event.preventDefault();
+  //     // Your AJAX submission logic here
+  //     resetForm();
+  // });
+</script>
+
+{% block content %}
+  <div class="chat-interface">
+    <h1>Logged in as: {{ request.user.username }}</h1>
+  </div>
+  <h2>Chat with {{ other_user.username }}</h2>
+  <a href="{% url 'chat_page' %}">Go to Chat Page</a>
+
+  <div class="chat-container">
+    <div class="messages" id="message-container">
+      {% for message in messages %}
+        <div class="message{% if message.sender == request.user %} sent{% else %} received{% endif %}">
+          <p> <b>Sender: {{message.sender}}</b>. Message: {{ message.content }}</p>
+          <span class="timestamp">{{ message.timestamp|date:"H:i" }}</span>
+        </div>
+      {% endfor %}
+    </div>
+    <div>
+      <form method="post" action="{% url 'send_message' other_user.id %}" id="message-form">
+        {% csrf_token %}
+        <input type="text" name="message" placeholder="Type your message here" required>
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}
